@@ -1184,6 +1184,10 @@ int smblib_set_icl_current(struct smb_charger *chg, int icl_ua)
 	union power_supply_propval val = {0, };
 	int usb_present = 0;
 
+    /* ensure icl_ua is less than max icl */
+    if (icl_ua > chg->param.usb_icl.max_u)
+        icl_ua = chg->param.usb_icl.max_u;
+
 	pr_info("%s: set icl %d\n", __func__, icl_ua);
 
 	/* suspend and return if 25mA or less is requested */
